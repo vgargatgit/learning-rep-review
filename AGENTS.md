@@ -28,6 +28,32 @@ Good:
 
 This rule applies to all heading levels, including the page title.
 
+## Mathematical rendering pipeline
+
+**Never send raw TeX through the Markdown parser and never convert `\[...\]` into `$$...$$` before Markdown rendering.**
+
+Markdown parsers can reinterpret backslashes, underscores, asterisks, blank lines and dollar delimiters. This can split one equation into several DOM nodes or expose raw TeX in the rendered page.
+
+The site reader must use this order:
+
+```text
+Markdown source
+    -> protect TeX expressions with inert placeholders
+    -> parse the remaining Markdown
+    -> restore TeX into the placeholders as text
+    -> build navigation and other DOM enhancements
+    -> run MathJax
+```
+
+Additional constraints:
+
+- do not protect apparent TeX inside fenced code or inline code;
+- keep the un-typeset placeholder DOM as the source used when document search resets the page;
+- exclude protected math and MathJax output from text highlighting;
+- support `\(...\)` for inline mathematics and `\[...\]` for display mathematics;
+- `$$...$$` may be accepted as input, but should also be protected before Markdown parsing;
+- never use a regular Markdown paragraph containing raw display delimiters as an intermediate representation.
+
 ## Mathematical and visual content
 
 - Use MathJax/LaTeX for equations and derivations.
