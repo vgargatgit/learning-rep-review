@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A paper-driven, visual guide to feature engineering, representation learning, embeddings, invariance and geometric deep learning.">
+  <meta name="theme-color" content="#17233c">
+  <title>Learning Representations</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <div class="progress" aria-hidden="true"><span id="scroll-progress"></span></div>
+  <header class="site-header">
+    <a class="brand" href="./" aria-label="Learning Representations home">
+      <span class="brand-mark" aria-hidden="true">R</span>
+      <span><strong>Learning</strong> Representations</span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav id="site-nav" class="site-nav" aria-label="Primary navigation">
+      <a href="#overview">Overview</a>
+      <a href="#papers">Core papers</a>
+      <a href="#resources">Resources</a>
+      <a href="#principles">Principles</a>
+      <a class="nav-github" href="https://github.com/vgargatgit/learning-rep-review">GitHub</a>
+      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle colour theme">◐</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="overview">
+      <div class="hero-copy">
+        <p class="eyebrow">A paper-driven learning project</p>
+        <h1>The model never sees the world. It sees a <em>representation</em>.</h1>
+        <p class="hero-lede">Learn how raw observations become features, embeddings and hidden states—and why the chosen representation determines what a model can learn easily, reliably and safely.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="reader.html?doc=papers/core/01-backpropagation.md">Start with backpropagation</a>
+          <a class="button secondary" href="reader.html?doc=docs/reading-roadmap.md">Open the 12-week roadmap</a>
+        </div>
+        <div class="hero-meta" aria-label="Project highlights">
+          <span><strong>9</strong> core guides</span>
+          <span><strong>50+</strong> papers</span>
+          <span><strong>20</strong> experiments</span>
+          <span><strong>12</strong> weeks</span>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-label="Representation pipeline illustration">
+        <div class="pipeline-card">
+          <div class="pipeline-node world"><span>01</span><strong>World</strong><small>customers, words, images, graphs</small></div>
+          <div class="pipeline-arrow">↓ measurement</div>
+          <div class="pipeline-node raw"><span>02</span><strong>Raw observations</strong><small>values, events, categories</small></div>
+          <div class="pipeline-arrow">↓ encoding</div>
+          <div class="pipeline-node input"><span>03</span><strong>Model inputs</strong><small>features, tokens, tensors</small></div>
+          <div class="pipeline-arrow">↓ learned transformation</div>
+          <div class="pipeline-node latent"><span>04</span><strong>Hidden representation</strong><small>task-shaped geometry</small></div>
+          <div class="pipeline-arrow">↓ task head</div>
+          <div class="pipeline-node output"><span>05</span><strong>Decision</strong><small>prediction, score, generation</small></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="statement-band">
+      <p>A useful representation makes important structure <strong>easy to express</strong>, avoids false structure, preserves required information and removes nuisance variation only when that variation is truly irrelevant.</p>
+    </section>
+
+    <section class="section" id="papers">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">The core reading track</p>
+          <h2>Nine papers. One continuous story.</h2>
+        </div>
+        <p>From manually designed features to learned geometry, structured domains and symmetry-aware architectures.</p>
+      </div>
+
+      <div class="paper-grid" id="paper-grid">
+        <article class="paper-card" data-tags="foundations backpropagation hidden features">
+          <span class="paper-number">01</span><p class="paper-era">1986 · Foundations</p>
+          <h3>Learning Representations by Back-Propagating Errors</h3>
+          <p>Hidden units become trainable feature constructors, reshaping an input space before the final decision.</p>
+          <a href="reader.html?doc=papers/core/01-backpropagation.md">Read the guide <span>→</span></a>
+        </article>
+        <article class="paper-card" data-tags="feature engineering selection leakage validation">
+          <span class="paper-number">02</span><p class="paper-era">2003 · Feature engineering</p>
+          <h3>An Introduction to Variable and Feature Selection</h3>
+          <p>Relevance, redundancy, interactions and the validation boundaries required for honest feature selection.</p>
+          <a href="reader.html?doc=papers/core/02-variable-and-feature-selection.md">Read the guide <span>→</span></a>
+        </article>
+        <article class="paper-card" data-tags="generalisation hypothesis space optimisation">
+          <span class="paper-number">03</span><p class="paper-era">2012 · Machine-learning practice</p>
+          <h3>A Few Useful Things to Know About Machine Learning</h3>
+          <p>Representation, evaluation and optimisation form one system; weakness in any one can dominate the outcome.</p>
+          <a href="reader.html?doc=papers/core/03-useful-things-to-know.md">Read the guide <span>→</span></a>
+        </article>
+        <article class="paper-card" data-tags="review distributed manifolds factors disentanglement">
+          <span class="paper-number">04</span><p class="paper-era">2013 · Conceptual framework</p>
+          <h3>Representation Learning: A Review and New Perspectives</h3>
+          <p>Distributed codes, factors of variation, manifolds, transfer and the priors that make representations useful.</p>
+          <a href="reader.html?doc=papers/core/04-representation-learning-review.md">Read the guide <span>→</span></a>
+        </article>
+        <article class="paper-card" data-tags="language model embeddings distributed representation">
+          <span class="paper-number">05</span><p class="paper-era">2003 · Language</p>
+          <h3>A Neural Probabilistic Language Model</h3>
+          <p>Word vectors allow statistical strength to be shared between related symbols rather than isolated one-hot IDs.</p>
+          <a href="reader.html?doc=papers/core/05-neural-probabilistic-language-model.md">Read the guide <span>→</span></a>
+        </article>
+        <article class="paper-card" data-tags="word2vec cbow skipgram embeddings">
+          <span class="paper-number">06</span><p class="paper-era">2013 · Embeddings</p>
+          <h3>Efficient Estimation of Word Representations</h3>
+          <p>CBOW and skip-gram make learned vector geometry practical at scale and reveal the role of the training objective.</p>
+          <a href="reader.html?doc=papers/core/06-word2vec.md">Read the guide <span>→</span></a>
+        </article>
+        <article class="paper-card" data-tags="tabular categories entity embeddings">
+          <span class="paper-number">07</span><p class="paper-era">2016 · Tabular data</p>
+          <h3>Entity Embeddings of Categorical Variables</h3>
+          <p>High-cardinality categories receive dense, task-dependent geometry instead of arbitrary numeric order.</p>
+          <a href="reader.html?doc=papers/core/07-entity-embeddings.md">Read the guide <span>→</span></a>
+        </article>
+        <article class="paper-card" data-tags="sets invariance permutation aggregation">
+          <span class="paper-number">08</span><p class="paper-era">2017 · Structured inputs</p>
+          <h3>Deep Sets</h3>
+          <p>Shared element encoders and symmetric aggregation build permutation invariance into the architecture.</p>
+          <a href="reader.html?doc=papers/core/08-deep-sets.md">Read the guide <span>→</span></a>
+        </article>
+        <article class="paper-card" data-tags="geometry symmetry equivariance graphs manifolds">
+          <span class="paper-number">09</span><p class="paper-era">2021 · Unifying framework</p>
+          <h3>Geometric Deep Learning</h3>
+          <p>Grids, sets, graphs and manifolds are connected through symmetry, invariance, equivariance and domain priors.</p>
+          <a href="reader.html?doc=papers/core/09-geometric-deep-learning.md">Read the guide <span>→</span></a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section split-section" id="resources">
+      <div class="resource-intro">
+        <p class="eyebrow">Beyond the core track</p>
+        <h2>Read, build, compare and test.</h2>
+        <p>The repository is designed as a learning system rather than a static bibliography. Each resource turns ideas into decisions, experiments or reusable patterns.</p>
+      </div>
+      <div class="resource-list">
+        <a class="resource-card" href="reader.html?doc=papers/README.md"><span>Catalogue</span><strong>Explore the complete paper map</strong><small>Foundations, embeddings, latent variables, self-supervision, multimodality and representation analysis.</small></a>
+        <a class="resource-card" href="reader.html?doc=experiments/README.md"><span>Laboratory</span><strong>Run 20 toy experiments</strong><small>XOR, leakage, cyclic time, skip-gram, Deep Sets, contrastive collapse, probes and shortcut learning.</small></a>
+        <a class="resource-card" href="reader.html?doc=docs/design-patterns.md"><span>Patterns</span><strong>Use the representation design catalogue</strong><small>Twenty reusable moves for geometry, context, invariance, causality, missingness and production versioning.</small></a>
+        <a class="resource-card" href="reader.html?doc=docs/reading-roadmap.md"><span>Curriculum</span><strong>Follow the 12-week roadmap</strong><small>A staged route from vocabulary and feature construction to transfer, probing and geometric priors.</small></a>
+        <a class="resource-card" href="reader.html?doc=README.md"><span>Project</span><strong>Read the full project specification</strong><small>Goals, teaching method, terminology, paper map and production-oriented checklist.</small></a>
+        <a class="resource-card" href="reader.html?doc=PROJECT_STATUS.md"><span>Status</span><strong>See what is built and what comes next</strong><small>Current materials, planned executable notebooks, illustrations and rendered chapters.</small></a>
+      </div>
+    </section>
+
+    <section class="section principles" id="principles">
+      <div class="section-heading">
+        <div><p class="eyebrow">Representation principles</p><h2>Questions to ask before choosing a model</h2></div>
+        <p>Architecture starts after the domain, information and transformation requirements are understood.</p>
+      </div>
+      <div class="principle-grid">
+        <article><span>01</span><h3>What is the object?</h3><p>A scalar, category, sequence, set, image, graph or event stream carries different structural assumptions.</p></article>
+        <article><span>02</span><h3>What must be preserved?</h3><p>Aggregation, compression and preprocessing can silently discard recency, multiplicity, topology or rare events.</p></article>
+        <article><span>03</span><h3>What should be invariant?</h3><p>Order, translation, rotation or unit changes should be ignored only when they do not alter the task answer.</p></article>
+        <article><span>04</span><h3>What geometry is real?</h3><p>Integer category IDs, linear clock time and arbitrary distances can manufacture relationships that do not exist.</p></article>
+        <article><span>05</span><h3>What does the objective reward?</h3><p>The training game defines which similarities, distinctions and shortcuts become encoded.</p></article>
+        <article><span>06</span><h3>Can it leak the future?</h3><p>Every fitted transform, time window, target encoding and split belongs inside a clearly defined validation boundary.</p></article>
+      </div>
+    </section>
+
+    <section class="closing">
+      <p class="eyebrow">The central habit</p>
+      <h2>Do not ask only, “Which model should I use?”</h2>
+      <p>Ask what the model is allowed to see, how that information is organised, which transformations matter and what the learning objective will make easy to encode.</p>
+      <a class="button primary" href="reader.html?doc=docs/reading-roadmap.md">Begin the learning path</a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Original educational notes and experiments. Research papers remain linked to their publishers, proceedings, authors or preprint archives.</p>
+    <p><a href="https://github.com/vgargatgit/learning-rep-review">View source on GitHub</a></p>
+  </footer>
+  <script src="assets/app.js" defer></script>
+</body>
+</html>
