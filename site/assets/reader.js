@@ -43,6 +43,10 @@
     return slug;
   };
 
+  const normaliseMathDelimiters = markdown => markdown
+    .replace(/\\\[([\s\S]*?)\\\]/g, (_, equation) => `\n\n$$${equation}$$\n\n`)
+    .replace(/\\\((.*?)\\\)/g, (_, equation) => `$${equation}$`);
+
   const isExternalOrAbsolute = value => /^(?:[a-z][a-z0-9+.-]*:|\/\/|#|\/)/i.test(value);
 
   const resolveFromDocument = value => {
@@ -152,11 +156,11 @@
       const markdown = await response.text();
       if (!window.marked) throw new Error('Markdown renderer did not load');
 
-      content.innerHTML = window.marked.parse(markdown, { gfm: true, breaks: false });
+      content.innerHTML = window.marked.parse(normaliseMathDelimiters(markdown), { gfm: true, breaks: false });
       const title = content.querySelector('h1')?.textContent || 'Learning Representations';
       document.title = `${title} · Learning Representations`;
-      postProcessContent();
       originalHtml = content.innerHTML;
+      postProcessContent();
       typesetMath();
     } catch (error) {
       console.error(error);
