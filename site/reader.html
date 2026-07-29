@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Read the Learning Representations paper guides, experiments and design notes.">
+  <meta name="theme-color" content="#17233c">
+  <title>Reader · Learning Representations</title>
+  <link rel="stylesheet" href="assets/styles.css">
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+      options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body class="reader-body">
+  <div class="progress" aria-hidden="true"><span id="scroll-progress"></span></div>
+  <header class="site-header">
+    <a class="brand" href="./" aria-label="Learning Representations home">
+      <span class="brand-mark" aria-hidden="true">R</span>
+      <span><strong>Learning</strong> Representations</span>
+    </a>
+    <nav class="site-nav" aria-label="Reader navigation">
+      <a href="./#papers">Core papers</a>
+      <a href="./#resources">Resources</a>
+      <a class="nav-github" href="https://github.com/vgargatgit/learning-rep-review">GitHub</a>
+      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle colour theme">◐</button>
+    </nav>
+  </header>
+
+  <main class="reader-shell">
+    <aside class="reader-sidebar">
+      <h2>Core papers</h2>
+      <nav id="reader-nav">
+        <a data-doc="papers/core/01-backpropagation.md" href="reader.html?doc=papers/core/01-backpropagation.md">01 · Backpropagation</a>
+        <a data-doc="papers/core/02-variable-and-feature-selection.md" href="reader.html?doc=papers/core/02-variable-and-feature-selection.md">02 · Feature selection</a>
+        <a data-doc="papers/core/03-useful-things-to-know.md" href="reader.html?doc=papers/core/03-useful-things-to-know.md">03 · Useful ML principles</a>
+        <a data-doc="papers/core/04-representation-learning-review.md" href="reader.html?doc=papers/core/04-representation-learning-review.md">04 · Representation review</a>
+        <a data-doc="papers/core/05-neural-probabilistic-language-model.md" href="reader.html?doc=papers/core/05-neural-probabilistic-language-model.md">05 · Neural language model</a>
+        <a data-doc="papers/core/06-word2vec.md" href="reader.html?doc=papers/core/06-word2vec.md">06 · Word2vec</a>
+        <a data-doc="papers/core/07-entity-embeddings.md" href="reader.html?doc=papers/core/07-entity-embeddings.md">07 · Entity embeddings</a>
+        <a data-doc="papers/core/08-deep-sets.md" href="reader.html?doc=papers/core/08-deep-sets.md">08 · Deep Sets</a>
+        <a data-doc="papers/core/09-geometric-deep-learning.md" href="reader.html?doc=papers/core/09-geometric-deep-learning.md">09 · Geometric deep learning</a>
+      </nav>
+      <h2 style="margin-top: 28px">Project resources</h2>
+      <nav>
+        <a data-doc="papers/README.md" href="reader.html?doc=papers/README.md">Complete paper catalogue</a>
+        <a data-doc="experiments/README.md" href="reader.html?doc=experiments/README.md">Toy experiments</a>
+        <a data-doc="docs/design-patterns.md" href="reader.html?doc=docs/design-patterns.md">Design patterns</a>
+        <a data-doc="docs/reading-roadmap.md" href="reader.html?doc=docs/reading-roadmap.md">Reading roadmap</a>
+        <a data-doc="README.md" href="reader.html?doc=README.md">Project overview</a>
+        <a data-doc="PROJECT_STATUS.md" href="reader.html?doc=PROJECT_STATUS.md">Project status</a>
+      </nav>
+    </aside>
+
+    <article class="reader-main">
+      <div class="reader-tools">
+        <a href="./">← Back to overview</a>
+        <input id="reader-search" class="reader-search" type="search" placeholder="Find in this guide…" aria-label="Find text in this guide">
+      </div>
+      <div id="reader-content" class="markdown-body"><p class="reader-loading">Loading guide…</p></div>
+    </article>
+
+    <aside class="reader-toc">
+      <h2>On this page</h2>
+      <nav id="reader-toc"></nav>
+    </aside>
+  </main>
+
+  <script src="assets/app.js" defer></script>
+  <script src="assets/reader.js" defer></script>
+</body>
+</html>
