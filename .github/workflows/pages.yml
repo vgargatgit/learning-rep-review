@@ -26,6 +26,8 @@ jobs:
 
       - name: Test reader JavaScript and mathematics pipeline
         run: |
+          node --check site/assets/auth.js
+          node --check site/assets/app.js
           node --check site/assets/math-protection.js
           node --check site/assets/reader.js
           node scripts/test_reader_math.js
