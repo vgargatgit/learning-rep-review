@@ -15,6 +15,7 @@
     'docs/reading-roadmap.md',
     'docs/pedagogical-framework.md',
     'docs/representation-checklist.md',
+    'docs/rendering-guidelines.md',
     'README.md',
     'PROJECT_STATUS.md'
   ]);
