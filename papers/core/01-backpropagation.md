@@ -282,27 +282,25 @@ square   -> [0.8, 0.6, 0.1, 0.2]
 
 With \(n\) binary-like units, many patterns can be represented. Distributed codes allow shared factors and combinatorial reuse, but they are harder to interpret unit by unit.
 
-## Visual scene plan
+## Visual narrative
 
-### Scene 1 — The impossible fence
+The paper uses a nine-scene visual progression rather than a single decorative gallery. Each scene is intended to appear near the conceptual obstacle it resolves.
 
-A classifier tries to divide four XOR houses using one straight fence and fails.
+| Scene | Working title | Main lesson |
+|---:|---|---|
+| 1 | The prediction machine | Values move forward through local weighted transformations. |
+| 2 | The prediction meets the target | The objective measures the discrepancy between prediction and target. |
+| 3 | The credit-assignment puzzle | A wrong output does not directly specify how every internal parameter should change. |
+| 4 | Direct output sensitivity | Output discrepancy combines with the local activation slope. |
+| 5 | The hidden path of influence | A hidden parameter affects loss indirectly through later computations. |
+| 6 | The chain-rule relay | Global influence is composed from local sensitivities. |
+| 7 | Gathering downstream signals | A hidden unit combines weighted sensitivity contributions from every downstream path. |
+| 8 | One complete numerical update | Backpropagation is reproducible forward arithmetic, backward derivatives and a small update. |
+| 9 | A representation takes shape | Repeated updates reshape hidden activations into task-useful coordinates. |
 
-### Scene 2 — The hidden-unit workshop
+The complete narrative, technical constraints, misconceptions and integration sequence are specified in the [Backpropagation Visual Scene Plan](../../docs/backpropagation-scene-plan.md).
 
-Hana the Hidden Unit receives the coordinates and stamps each example with newly learned properties.
-
-### Scene 3 — The gradient courier
-
-Gerry carries a message backward from the mistaken output. At every connection, the message is multiplied by local sensitivity.
-
-### Scene 4 — New map, easy boundary
-
-The four inputs are shown again in hidden-representation space, where a simple output boundary succeeds.
-
-### Scene 5 — Team representation
-
-Several hidden units jointly encode a pattern; no single unit owns the whole concept.
+The asset names, panel layouts, character continuity, alternative text, generation prompts, SVG requirements and production workflow are specified in the [Backpropagation Illustration Brief](../../docs/backpropagation-illustration-brief.md).
 
 ## Main claims to verify while reading
 
