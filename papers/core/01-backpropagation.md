@@ -126,7 +126,7 @@ and the output error signal is
 \left(\hat{y}_k-y_k\right)f'(z_k).
 \]
 
-Gradient descent then updates a parameter \(	heta\) using
+Gradient descent then updates a parameter θ using
 
 \[
 \theta \leftarrow \theta-\eta\nabla_\theta E,
