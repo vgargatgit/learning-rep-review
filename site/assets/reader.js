@@ -44,9 +44,59 @@
     return slug;
   };
 
-  const normaliseMathDelimiters = markdown => markdown
-    .replace(/\\\[([\s\S]*?)\\\]/g, (_, equation) => `\n\n$$${equation}$$\n\n`)
-    .replace(/\\\((.*?)\\\)/g, (_, equation) => `$${equation}$`);
+  /**
+   * Markdown parsers are allowed to reinterpret backslashes, underscores and
+   * asterisks. Protect TeX before Markdown parsing, then restore it into inert
+   * HTML placeholders for MathJax to process afterwards.
+   */
+  const protectMath = markdown => {
+    const math = [];
+    const literalSegments = [];
+
+    const stashLiteral = source => {
+      const token = `\uE000LITERAL_${literalSegments.length}\uE001`;
+      literalSegments.push({ token, source });
+      return token;
+    };
+
+    // Do not interpret examples inside fenced or inline code as mathematics.
+    let protectedMarkdown = markdown.replace(
+      /(^|\n)( {0,3})(`{3,}|~{3,})[^\n]*\n[\s\S]*?\n\2\3[^\n]*(?=\n|$)/g,
+      match => stashLiteral(match)
+    );
+    protectedMarkdown = protectedMarkdown.replace(/(`+)([^`\n]*?)\1/g, match => stashLiteral(match));
+
+    const stashMath = (display, source) => {
+      const index = math.length;
+      math.push({ display, source: source.trim() });
+      if (display) {
+        return `\n\n<div class="math-source" data-math-token="${index}" data-display="true"></div>\n\n`;
+      }
+      return `<span class="math-source" data-math-token="${index}" data-display="false"></span>`;
+    };
+
+    protectedMarkdown = protectedMarkdown
+      .replace(/\\\[([\s\S]*?)\\\]/g, (_, equation) => stashMath(true, equation))
+      .replace(/\$\$([\s\S]*?)\$\$/g, (_, equation) => stashMath(true, equation))
+      .replace(/\\\(([\s\S]*?)\\\)/g, (_, equation) => stashMath(false, equation));
+
+    literalSegments.forEach(({ token, source }) => {
+      protectedMarkdown = protectedMarkdown.split(token).join(source);
+    });
+
+    return { markdown: protectedMarkdown, math };
+  };
+
+  const restoreMathSources = math => {
+    content.querySelectorAll('[data-math-token]').forEach(node => {
+      const index = Number.parseInt(node.dataset.mathToken, 10);
+      const item = math[index];
+      if (!item) return;
+      node.textContent = item.display
+        ? `\\[${item.source}\\]`
+        : `\\(${item.source}\\)`;
+    });
+  };
 
   const isExternalOrAbsolute = value => /^(?:[a-z][a-z0-9+.-]*:|\/\/|#|\/)/i.test(value);
 
@@ -130,7 +180,10 @@
     const walker = document.createTreeWalker(content, NodeFilter.SHOW_TEXT, {
       acceptNode(node) {
         const parent = node.parentElement;
-        if (!parent || ['SCRIPT', 'STYLE', 'PRE', 'CODE', 'MARK', 'MJX-CONTAINER'].includes(parent.tagName)) {
+        if (
+          !parent ||
+          parent.closest('script, style, pre, code, mark, mjx-container, .math-source')
+        ) {
           return NodeFilter.FILTER_REJECT;
         }
         return node.nodeValue.toLowerCase().includes(term.toLowerCase())
@@ -157,7 +210,10 @@
       const markdown = await response.text();
       if (!window.marked) throw new Error('Markdown renderer did not load');
 
-      content.innerHTML = window.marked.parse(normaliseMathDelimiters(markdown), { gfm: true, breaks: false });
+      const protectedDocument = protectMath(markdown);
+      content.innerHTML = window.marked.parse(protectedDocument.markdown, { gfm: true, breaks: false });
+      restoreMathSources(protectedDocument.math);
+
       const title = content.querySelector('h1')?.textContent || 'Learning Representations';
       document.title = `${title} · Learning Representations`;
       originalHtml = content.innerHTML;
