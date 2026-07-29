@@ -2,6 +2,38 @@
 
 This project uses several visual forms, but each form should be chosen according to what the reader needs to understand, copy, search and revisit.
 
+## Non-negotiable heading rule
+
+**Markdown headings must contain plain language only. Never place equations, LaTeX delimiters, mathematical symbols or inline code in a heading.**
+
+The site constructs heading anchors, navigation labels and the table of contents before MathJax finishes typesetting. Mathematical markup inside a heading therefore causes unreliable rendering, unstable links and inconsistent navigation.
+
+Bad:
+
+```markdown
+## Gradient \(\partial E / \partial w\)
+```
+
+Good:
+
+```markdown
+## Weight gradient
+
+\[
+\frac{\partial E}{\partial w}
+\]
+```
+
+When an equation names the section, choose a concise conceptual heading and place the exact equation immediately below it. This applies to every heading level, including the page title.
+
+The repository enforces this rule with:
+
+```bash
+python3 scripts/lint_markdown_headings.py
+```
+
+The GitHub Pages deployment runs the same check.
+
 ## Decision rule
 
 | Content | Preferred form | Reason |
@@ -90,7 +122,8 @@ Every mathematical section should:
 - avoid hiding more than one conceptual step behind a single equality;
 - state the loss function and activation assumptions used in toy calculations;
 - retain enough precision to reproduce the displayed result;
-- separate the general equation from the numerical substitution.
+- separate the general equation from the numerical substitution;
+- keep the section heading free of mathematical markup.
 
 ## Recommended page rhythm
 
@@ -120,6 +153,7 @@ The backpropagation guide follows this policy:
 - the computation dependency and reverse gradient path use one SVG;
 - parameters use a table;
 - numerical forward and backward calculations use aligned MathJax;
-- local/distributed activation examples remain lightweight literal blocks.
+- local/distributed activation examples remain lightweight literal blocks;
+- all headings remain plain language, with equations placed in the body below them.
 
 This should be the template for revising the remaining paper guides.
