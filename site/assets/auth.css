@@ -1,0 +1,137 @@
+.login-page {
+  min-height: 100vh;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(circle at 10% 8%, rgba(74, 112, 214, .18), transparent 32rem),
+    radial-gradient(circle at 92% 18%, rgba(98, 71, 170, .16), transparent 34rem),
+    #f4f6fb;
+  color: #17233c;
+}
+
+.login-shell {
+  width: min(560px, 100%);
+}
+
+.login-card {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(28px, 6vw, 52px);
+  border: 1px solid #d8deec;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, .96);
+  box-shadow: 0 28px 80px rgba(23, 35, 60, .16);
+}
+
+.login-card::after {
+  content: "R";
+  position: absolute;
+  right: -28px;
+  bottom: -76px;
+  color: rgba(76, 91, 153, .07);
+  font: 800 220px/1 Georgia, serif;
+}
+
+.login-card .eyebrow {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 10px;
+  color: #5366b1;
+  font-size: .76rem;
+  font-weight: 850;
+  letter-spacing: .13em;
+}
+
+.login-card h1 {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  font-size: clamp(2.2rem, 8vw, 4rem);
+  line-height: .96;
+  letter-spacing: -.055em;
+}
+
+.login-copy,
+.login-security {
+  position: relative;
+  z-index: 1;
+  color: #5d6880;
+  line-height: 1.65;
+}
+
+.login-form {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.login-form label {
+  font-size: .84rem;
+  font-weight: 800;
+}
+
+.login-form input {
+  width: 100%;
+  min-height: 50px;
+  padding: 12px 14px;
+  border: 1px solid #d8deec;
+  border-radius: 12px;
+  background: #fff;
+  color: #17233c;
+  font: inherit;
+}
+
+.login-form input:focus {
+  outline: 3px solid rgba(83, 102, 177, .18);
+  border-color: #5366b1;
+}
+
+.login-button {
+  min-height: 52px;
+  margin-top: 8px;
+  border: 0;
+  border-radius: 12px;
+  color: #fff;
+  background: linear-gradient(135deg, #4257a6, #7057b4);
+  box-shadow: 0 12px 28px rgba(66, 87, 166, .28);
+  font: 850 1rem/1 inherit;
+  cursor: pointer;
+}
+
+.login-button:disabled {
+  opacity: .65;
+  cursor: wait;
+}
+
+.login-error {
+  margin: 4px 0 0;
+  color: #b83f4a;
+  font-size: .9rem;
+  font-weight: 750;
+}
+
+.login-security {
+  margin: 18px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid #e1e5ef;
+  font-size: .8rem;
+}
+
+.auth-logout {
+  min-height: 38px;
+  padding: 0 14px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  color: inherit;
+  background: transparent;
+  font: 750 .82rem/1 inherit;
+  cursor: pointer;
+}
+
+.auth-logout:hover {
+  background: rgba(83, 102, 177, .1);
+}
