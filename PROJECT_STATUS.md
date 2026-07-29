@@ -27,6 +27,9 @@ Updated: 29 July 2026
 - [x] Searchable Markdown reader for papers and project resources
 - [x] Dark mode, page navigation, table of contents and equation rendering
 - [x] Automated GitHub Pages deployment workflow
+- [x] Nine-scene backpropagation visual narrative
+- [x] Shot-by-shot backpropagation illustration and SVG production brief
+- [x] Backpropagation visual documents integrated into the paper guide and site reader
 
 ## Next implementation phase
 
@@ -40,7 +43,8 @@ Updated: 29 July 2026
 - [ ] Implement E11: invariance/equivariance test harness
 - [ ] Implement E13: reconstruction versus downstream utility
 - [ ] Implement E14: contrastive augmentations define invariance
-- [ ] Add original cartoon scene sheets for the nine core papers
+- [ ] Produce the nine core backpropagation visual assets from the approved briefs
+- [ ] Add original cartoon scene sheets for the remaining eight core papers
 - [ ] Convert the backpropagation guide into a bespoke interactive chapter
 - [ ] Add tests for every hand calculation
 - [ ] Add paper-specific exercises and answer keys
