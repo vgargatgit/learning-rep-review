@@ -43,14 +43,44 @@
     return slug;
   };
 
-  const rewriteRelativeLinks = () => {
+  const isExternalOrAbsolute = value => /^(?:[a-z][a-z0-9+.-]*:|\/\/|#|\/)/i.test(value);
+
+  const resolveFromDocument = value => {
+    const base = new URL(`https://content.invalid/${doc}`);
+    return new URL(value, base);
+  };
+
+  const rewriteRelativeContent = () => {
     content.querySelectorAll('a[href]').forEach(anchor => {
       const href = anchor.getAttribute('href');
-      if (!href || href.startsWith('#') || /^(https?:|mailto:)/i.test(href)) return;
-      const normalised = href.replace(/^\.\//, '');
-      if (allowedDocs.has(normalised)) {
-        anchor.href = `reader.html?doc=${encodeURIComponent(normalised)}`;
+      if (!href || isExternalOrAbsolute(href)) return;
+
+      const resolvedUrl = resolveFromDocument(href);
+      const resolvedPath = resolvedUrl.pathname.replace(/^\//, '');
+      if (allowedDocs.has(resolvedPath)) {
+        anchor.href = `reader.html?doc=${encodeURIComponent(resolvedPath)}${resolvedUrl.hash}`;
+      } else {
+        anchor.href = `content/${resolvedPath}${resolvedUrl.search}${resolvedUrl.hash}`;
       }
+    });
+
+    content.querySelectorAll('img[src]').forEach(image => {
+      const src = image.getAttribute('src');
+      if (!src || isExternalOrAbsolute(src)) return;
+      const resolvedUrl = resolveFromDocument(src);
+      const resolvedPath = resolvedUrl.pathname.replace(/^\//, '');
+      image.src = `content/${resolvedPath}${resolvedUrl.search}${resolvedUrl.hash}`;
+      image.loading = 'lazy';
+      image.decoding = 'async';
+    });
+  };
+
+  const classifyCodeBlocks = () => {
+    content.querySelectorAll('pre > code').forEach(code => {
+      const pre = code.parentElement;
+      if (!code.classList.contains('language-text')) return;
+      const text = code.textContent;
+      pre.classList.add(/(?:->|=>|→|↓|←)/.test(text) ? 'flow-code' : 'plain-code');
     });
   };
 
@@ -68,6 +98,12 @@
     });
   };
 
+  const postProcessContent = () => {
+    buildToc();
+    rewriteRelativeContent();
+    classifyCodeBlocks();
+  };
+
   const typesetMath = () => {
     if (window.MathJax?.typesetPromise) {
       window.MathJax.typesetClear?.([content]);
@@ -77,8 +113,7 @@
 
   const highlight = query => {
     content.innerHTML = originalHtml;
-    buildToc();
-    rewriteRelativeLinks();
+    postProcessContent();
     const term = query.trim();
     if (!term) {
       typesetMath();
@@ -90,7 +125,7 @@
     const walker = document.createTreeWalker(content, NodeFilter.SHOW_TEXT, {
       acceptNode(node) {
         const parent = node.parentElement;
-        if (!parent || ['SCRIPT', 'STYLE', 'PRE', 'CODE', 'MARK'].includes(parent.tagName)) {
+        if (!parent || ['SCRIPT', 'STYLE', 'PRE', 'CODE', 'MARK', 'MJX-CONTAINER'].includes(parent.tagName)) {
           return NodeFilter.FILTER_REJECT;
         }
         return node.nodeValue.toLowerCase().includes(term.toLowerCase())
@@ -120,8 +155,7 @@
       content.innerHTML = window.marked.parse(markdown, { gfm: true, breaks: false });
       const title = content.querySelector('h1')?.textContent || 'Learning Representations';
       document.title = `${title} · Learning Representations`;
-      buildToc();
-      rewriteRelativeLinks();
+      postProcessContent();
       originalHtml = content.innerHTML;
       typesetMath();
     } catch (error) {
