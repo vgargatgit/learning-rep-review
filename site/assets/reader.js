@@ -13,6 +13,8 @@
     'experiments/README.md',
     'docs/design-patterns.md',
     'docs/reading-roadmap.md',
+    'docs/pedagogical-framework.md',
+    'docs/representation-checklist.md',
     'README.md',
     'PROJECT_STATUS.md'
   ]);
@@ -66,12 +68,22 @@
     });
   };
 
+  const typesetMath = () => {
+    if (window.MathJax?.typesetPromise) {
+      window.MathJax.typesetClear?.([content]);
+      window.MathJax.typesetPromise([content]).catch(console.error);
+    }
+  };
+
   const highlight = query => {
     content.innerHTML = originalHtml;
     buildToc();
     rewriteRelativeLinks();
     const term = query.trim();
-    if (!term) return;
+    if (!term) {
+      typesetMath();
+      return;
+    }
 
     const safe = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const regex = new RegExp(`(${safe})`, 'gi');
@@ -94,6 +106,7 @@
       wrapper.innerHTML = node.nodeValue.replace(regex, '<mark class="search-hit">$1</mark>');
       node.replaceWith(...wrapper.childNodes);
     });
+    typesetMath();
     content.querySelector('mark')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
   };
 
@@ -110,10 +123,7 @@
       buildToc();
       rewriteRelativeLinks();
       originalHtml = content.innerHTML;
-
-      if (window.MathJax?.typesetPromise) {
-        window.MathJax.typesetPromise([content]).catch(console.error);
-      }
+      typesetMath();
     } catch (error) {
       console.error(error);
       content.innerHTML = `
