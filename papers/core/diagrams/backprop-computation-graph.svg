@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="390" viewBox="0 0 1200 390" role="img" aria-labelledby="title desc">
+  <title id="title">Backpropagation computation graph</title>
+  <desc id="desc">A forward chain from hidden weight through hidden pre-activation, hidden activation, output pre-activation and prediction to the error. A reverse arrow shows gradients moving backward through the same chain.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,5 L0,10 z" fill="#d95f3b"/>
+    </marker>
+    <marker id="arrowBack" markerWidth="10" markerHeight="10" refX="2" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M10,0 L0,5 L10,10 z" fill="#227a76"/>
+    </marker>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#17233c" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <rect x="1" y="1" width="1198" height="388" rx="28" fill="#fffdf8" stroke="#d7d0c2" stroke-width="2"/>
+  <text x="60" y="58" fill="#17233c" font-family="Inter, Arial, sans-serif" font-size="25" font-weight="700">Forward computation</text>
+  <text x="60" y="326" fill="#227a76" font-family="Inter, Arial, sans-serif" font-size="21" font-weight="700">Backward credit assignment</text>
+
+  <g filter="url(#shadow)" font-family="Inter, Arial, sans-serif" text-anchor="middle">
+    <g>
+      <rect x="45" y="95" width="150" height="92" rx="18" fill="#f8d9ca" stroke="#d95f3b" stroke-width="2"/>
+      <text x="120" y="130" fill="#17233c" font-size="17" font-weight="700">Hidden weight</text>
+      <text x="120" y="160" fill="#17233c" font-size="25" font-family="Georgia, serif">w<tspan baseline-shift="sub" font-size="16">ji</tspan></text>
+    </g>
+    <g>
+      <rect x="245" y="95" width="150" height="92" rx="18" fill="#ede8dc" stroke="#9d9484" stroke-width="2"/>
+      <text x="320" y="126" fill="#17233c" font-size="16" font-weight="700">Hidden</text>
+      <text x="320" y="149" fill="#17233c" font-size="16" font-weight="700">pre-activation</text>
+      <text x="320" y="173" fill="#17233c" font-size="24" font-family="Georgia, serif">a<tspan baseline-shift="sub" font-size="16">j</tspan></text>
+    </g>
+    <g>
+      <rect x="445" y="95" width="150" height="92" rx="18" fill="#dceeea" stroke="#227a76" stroke-width="2"/>
+      <text x="520" y="126" fill="#17233c" font-size="16" font-weight="700">Hidden</text>
+      <text x="520" y="149" fill="#17233c" font-size="16" font-weight="700">activation</text>
+      <text x="520" y="173" fill="#17233c" font-size="24" font-family="Georgia, serif">h<tspan baseline-shift="sub" font-size="16">j</tspan></text>
+    </g>
+    <g>
+      <rect x="645" y="95" width="150" height="92" rx="18" fill="#ede8dc" stroke="#9d9484" stroke-width="2"/>
+      <text x="720" y="126" fill="#17233c" font-size="16" font-weight="700">Output</text>
+      <text x="720" y="149" fill="#17233c" font-size="16" font-weight="700">pre-activation</text>
+      <text x="720" y="173" fill="#17233c" font-size="24" font-family="Georgia, serif">z<tspan baseline-shift="sub" font-size="16">k</tspan></text>
+    </g>
+    <g>
+      <rect x="845" y="95" width="150" height="92" rx="18" fill="#dceeea" stroke="#227a76" stroke-width="2"/>
+      <text x="920" y="130" fill="#17233c" font-size="17" font-weight="700">Prediction</text>
+      <text x="920" y="162" fill="#17233c" font-size="24" font-family="Georgia, serif">ŷ<tspan baseline-shift="sub" font-size="16">k</tspan></text>
+    </g>
+    <g>
+      <rect x="1045" y="95" width="110" height="92" rx="18" fill="#17233c" stroke="#17233c" stroke-width="2"/>
+      <text x="1100" y="130" fill="#fffdf8" font-size="17" font-weight="700">Error</text>
+      <text x="1100" y="163" fill="#fffdf8" font-size="25" font-family="Georgia, serif">E</text>
+    </g>
+  </g>
+
+  <g stroke="#d95f3b" stroke-width="4" fill="none" marker-end="url(#arrow)">
+    <path d="M195 141 H238"/>
+    <path d="M395 141 H438"/>
+    <path d="M595 141 H638"/>
+    <path d="M795 141 H838"/>
+    <path d="M995 141 H1038"/>
+  </g>
+
+  <g fill="#6b6256" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" text-anchor="middle">
+    <text x="217" y="119">× xᵢ</text>
+    <text x="417" y="119">f′(aⱼ)</text>
+    <text x="617" y="119">× vₖⱼ</text>
+    <text x="817" y="119">f′(zₖ)</text>
+    <text x="1017" y="119">ŷₖ − yₖ</text>
+  </g>
+
+  <path d="M1100 246 H120" fill="none" stroke="#227a76" stroke-width="5" marker-end="url(#arrowBack)"/>
+  <g fill="#227a76" font-family="Inter, Arial, sans-serif" font-size="17" text-anchor="middle">
+    <text x="920" y="274">output sensitivity</text>
+    <text x="620" y="274">multiply by downstream weight and local derivative</text>
+    <text x="255" y="274">gradient for w<tspan baseline-shift="sub" font-size="12">ji</tspan></text>
+  </g>
+
+  <text x="600" y="357" text-anchor="middle" fill="#46516a" font-family="Georgia, serif" font-size="18">The chain rule follows every path by which a parameter can influence the final error.</text>
+</svg>
