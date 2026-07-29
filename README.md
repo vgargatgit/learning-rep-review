@@ -56,7 +56,7 @@ A useful representation should make important structure easy for the model to ex
 
 ## Core reading track
 
-These papers form the main narrative and will receive full chapter-style notes.
+These papers form the main narrative and have full chapter-style study guides.
 
 | Order | Paper | Why it matters |
 |---:|---|---|
@@ -158,12 +158,14 @@ The following catalogue broadens the project without replacing the core track.
 ```text
 learning-rep-review/
 ├── README.md
+├── PROJECT_STATUS.md
 ├── CONTRIBUTING.md
 ├── references.bib
 ├── docs/
 │   ├── reading-roadmap.md
 │   ├── pedagogical-framework.md
-│   └── representation-checklist.md
+│   ├── representation-checklist.md
+│   └── design-patterns.md
 ├── papers/
 │   ├── README.md
 │   └── core/
@@ -182,7 +184,7 @@ learning-rep-review/
 
 ## Recurring visual examples
 
-The project will repeatedly return to a small number of examples so that concepts accumulate instead of being reintroduced from scratch.
+The project repeatedly returns to a small number of examples so that concepts accumulate instead of being reintroduced from scratch.
 
 ### The three mapmakers
 
@@ -235,13 +237,17 @@ For every input, ask:
 
 - [x] Repository initialised
 - [x] Core and expanded paper catalogue defined
-- [ ] Detailed guide for each core paper
-- [ ] Toy numerical experiments
-- [ ] Cartoon scene specifications
-- [ ] Executable notebooks
-- [ ] Cross-paper design-pattern index
+- [x] Detailed guide for each core paper
+- [x] Toy numerical examples and experiment specifications
+- [x] Cartoon scene specifications inside each core guide
+- [x] Cross-paper design-pattern index
+- [x] Complete bibliography for the current catalogue
+- [ ] Executable notebooks and scripts
+- [ ] Final generated illustrations
 - [ ] Chapter-quality HTML rendering
+
+See `PROJECT_STATUS.md` for the implementation queue.
 
 ## Copyright and access
 
-This repository stores original notes, explanations, exercises and diagrams. It links to papers hosted by publishers, proceedings, authors and preprint archives; it does not redistribute copyrighted paper PDFs.
+This repository stores original notes, explanations, exercises and diagram specifications. It links to papers hosted by publishers, proceedings, authors and preprint archives; it does not redistribute copyrighted paper PDFs.
