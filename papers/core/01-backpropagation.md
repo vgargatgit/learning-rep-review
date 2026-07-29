@@ -23,9 +23,9 @@ The paper did not invent every mathematical ingredient of reverse-mode different
 
 ## The problem before the paper
 
-Suppose a network receives `x1` and `x2` and must compute XOR.
+Suppose a network receives \(x_1\) and \(x_2\) and must compute XOR.
 
-| x1 | x2 | target |
+| \(x_1\) | \(x_2\) | target |
 |---:|---:|---:|
 | 0 | 0 | 0 |
 | 0 | 1 | 1 |
@@ -45,188 +45,213 @@ and combine them to form XOR. The learning question is whether hidden units can 
 
 ## Network and notation
 
-For one hidden layer:
+For one hidden layer, the forward computation is:
 
-```text
-input x -> hidden pre-activation a -> hidden activation h
-        -> output pre-activation z -> prediction y_hat
-```
+\[
+\begin{aligned}
+a_j &= \sum_i w_{ji}x_i+b_j, \\
+h_j &= f(a_j), \\
+z_k &= \sum_j v_{kj}h_j+c_k, \\
+\hat{y}_k &= f(z_k).
+\end{aligned}
+\]
 
-Let:
+Here:
 
-- `x_i` be input unit `i`;
-- `w_ji` be the weight from input `i` to hidden unit `j`;
-- `b_j` be hidden bias;
-- `h_j` be hidden activation;
-- `v_kj` be the weight from hidden unit `j` to output unit `k`;
-- `c_k` be output bias;
-- `y_hat_k` be predicted output;
-- `y_k` be target;
-- `E` be the error function.
-
-Forward pass:
-
-```text
-a_j = sum_i(w_ji x_i) + b_j
-h_j = f(a_j)
-
-z_k = sum_j(v_kj h_j) + c_k
-y_hat_k = f(z_k)
-```
+- \(x_i\) is input unit \(i\);
+- \(w_{ji}\) is the weight from input \(i\) to hidden unit \(j\);
+- \(b_j\) is the hidden bias;
+- \(a_j\) is the hidden pre-activation;
+- \(h_j\) is the hidden activation;
+- \(v_{kj}\) is the weight from hidden unit \(j\) to output unit \(k\);
+- \(c_k\) is the output bias;
+- \(z_k\) is the output pre-activation;
+- \(\hat{y}_k\) is the prediction;
+- \(y_k\) is the target;
+- \(E\) is the error function.
 
 For the squared-error form used pedagogically:
 
-```text
-E = 1/2 sum_k (y_hat_k - y_k)^2
-```
+\[
+E=\frac{1}{2}\sum_k\left(\hat{y}_k-y_k\right)^2.
+\]
 
 ## The central chain-rule idea
 
-A hidden weight does not connect directly to the target. Its effect is indirect:
+A hidden weight does not connect directly to the target. Its effect is indirect: it changes a hidden pre-activation, which changes a hidden activation, which affects later activations, the prediction and finally the error.
 
-```text
-hidden weight -> hidden pre-activation -> hidden activation
-              -> output pre-activation -> prediction -> error
-```
+<figure class="concept-diagram">
+  <img src="diagrams/backprop-computation-graph.svg" alt="Computation graph showing the forward path from a hidden weight to the error and the backward gradient path through the same operations.">
+  <figcaption>Values move forward through the computation graph. Gradient sensitivities move backward through the same graph, multiplying by each local derivative.</figcaption>
+</figure>
 
-The chain rule decomposes the influence:
+The chain rule decomposes the influence of a hidden weight:
 
-```text
-∂E/∂w_ji = ∂E/∂a_j × ∂a_j/∂w_ji
-```
+\[
+\frac{\partial E}{\partial w_{ji}}
+=
+\frac{\partial E}{\partial a_j}
+\frac{\partial a_j}{\partial w_{ji}}.
+\]
 
-Because:
+Because
 
-```text
-∂a_j/∂w_ji = x_i
-```
+\[
+\frac{\partial a_j}{\partial w_{ji}}=x_i,
+\]
 
-we get:
+we obtain
 
-```text
-∂E/∂w_ji = delta_j x_i
-```
+\[
+\frac{\partial E}{\partial w_{ji}}=\delta_j x_i,
+\]
 
-where the hidden error signal is:
+where the hidden error signal is
 
-```text
-delta_j = f'(a_j) sum_k(v_kj delta_k)
-```
+\[
+\delta_j
+=
+\frac{\partial E}{\partial a_j}
+=
+f'(a_j)\sum_k v_{kj}\delta_k,
+\]
 
-and the output error signal is:
+and the output error signal is
 
-```text
-delta_k = (y_hat_k - y_k) f'(z_k)
-```
+\[
+\delta_k
+=
+\frac{\partial E}{\partial z_k}
+=
+\left(\hat{y}_k-y_k\right)f'(z_k).
+\]
 
-The update under gradient descent is:
+Gradient descent then updates a parameter \(	heta\) using
 
-```text
-weight <- weight - learning_rate × gradient
-```
+\[
+\theta \leftarrow \theta-\eta\nabla_\theta E,
+\]
+
+where \(\eta\) is the learning rate.
 
 ## Small numerical example
 
 Use one input, one hidden unit and one output unit so every operation is visible.
 
-Parameters:
-
-```text
-x = 1
-target y = 1
-hidden weight w = 0.5
-hidden bias b = 0
-output weight v = 0.5
-output bias c = 0
-activation f(t) = sigmoid(t)
-learning rate = 0.1
-```
+| Quantity | Value |
+|---|---:|
+| Input \(x\) | \(1\) |
+| Target \(y\) | \(1\) |
+| Hidden weight \(w\) | \(0.5\) |
+| Hidden bias \(b\) | \(0\) |
+| Output weight \(v\) | \(0.5\) |
+| Output bias \(c\) | \(0\) |
+| Activation | \(\sigma(t)\), the sigmoid |
+| Learning rate \(\eta\) | \(0.1\) |
 
 ### Forward pass
 
 Hidden pre-activation:
 
-```text
-a = wx + b = 0.5 × 1 + 0 = 0.5
-```
+\[
+a=wx+b=(0.5)(1)+0=0.5.
+\]
 
 Hidden activation:
 
-```text
-h = sigmoid(0.5) ≈ 0.622459
-```
+\[
+h=\sigma(a)=\sigma(0.5)\approx 0.622459.
+\]
 
 Output pre-activation:
 
-```text
-z = vh + c = 0.5 × 0.622459 = 0.311230
-```
+\[
+z=vh+c=(0.5)(0.622459)+0\approx 0.311230.
+\]
 
 Prediction:
 
-```text
-y_hat = sigmoid(0.311230) ≈ 0.577185
-```
+\[
+\hat{y}=\sigma(z)=\sigma(0.311230)\approx 0.577185.
+\]
 
 Squared error:
 
-```text
-E = 1/2(0.577185 - 1)^2 ≈ 0.089386
-```
+\[
+E=\frac{1}{2}(\hat{y}-y)^2
+=\frac{1}{2}(0.577185-1)^2
+\approx 0.089386.
+\]
 
 ### Output gradient
 
-For sigmoid, `f'(z) = y_hat(1-y_hat)`.
+For the sigmoid, \(\sigma'(z)=\hat{y}(1-\hat{y})\). Therefore:
 
-```text
-delta_output
-= (y_hat - y) y_hat(1-y_hat)
-≈ (-0.422815)(0.577185)(0.422815)
-≈ -0.103158
-```
+\[
+\begin{aligned}
+\delta_{\text{out}}
+&=(\hat{y}-y)\hat{y}(1-\hat{y}) \\
+&\approx(-0.422815)(0.577185)(0.422815) \\
+&\approx-0.103158.
+\end{aligned}
+\]
 
-Output-weight gradient:
+The output-weight gradient is:
 
-```text
-∂E/∂v = delta_output × h
-≈ -0.103158 × 0.622459
-≈ -0.064214
-```
+\[
+\begin{aligned}
+\frac{\partial E}{\partial v}
+&=\delta_{\text{out}}h \\
+&\approx(-0.103158)(0.622459) \\
+&\approx-0.064214.
+\end{aligned}
+\]
 
 ### Hidden gradient
 
-```text
-delta_hidden
-= h(1-h) × v × delta_output
-≈ 0.622459 × 0.377541 × 0.5 × (-0.103158)
-≈ -0.012120
-```
+The hidden error signal is:
 
-Hidden-weight gradient:
+\[
+\begin{aligned}
+\delta_{\text{hidden}}
+&=h(1-h)v\delta_{\text{out}} \\
+&\approx(0.622459)(0.377541)(0.5)(-0.103158) \\
+&\approx-0.012120.
+\end{aligned}
+\]
 
-```text
-∂E/∂w = delta_hidden × x
-≈ -0.012120
-```
+The hidden-weight gradient is:
+
+\[
+\frac{\partial E}{\partial w}
+=\delta_{\text{hidden}}x
+\approx-0.012120.
+\]
 
 ### Update
 
-```text
-v_new = 0.5 - 0.1(-0.064214) ≈ 0.506421
-w_new = 0.5 - 0.1(-0.012120) ≈ 0.501212
-```
+\[
+\begin{aligned}
+v_{\text{new}}
+&=0.5-0.1(-0.064214)
+\approx0.506421, \\
+w_{\text{new}}
+&=0.5-0.1(-0.012120)
+\approx0.501212.
+\end{aligned}
+\]
 
-Both weights increase slightly, moving the prediction toward the target `1`.
+Both weights increase slightly, moving the prediction toward the target \(1\).
 
 ## Representation interpretation
 
-The hidden activation:
+The hidden activation
 
-```text
-h = f(Wx + b)
-```
+\[
+h=f(Wx+b)
+\]
 
-is a learned representation of `x`. Training does not directly tell a hidden unit what concept to encode. The output loss rewards internal transformations that collectively help solve the task.
+is a learned representation of \(x\). Training does not directly tell a hidden unit what concept to encode. The output loss rewards internal transformations that collectively help solve the task.
 
 Important consequences:
 
@@ -255,7 +280,7 @@ triangle -> [0.9, 0.2, 0.7, 0.1]
 square   -> [0.8, 0.6, 0.1, 0.2]
 ```
 
-With `n` binary-like units, many patterns can be represented. Distributed codes allow shared factors and combinatorial reuse, but they are harder to interpret unit by unit.
+With \(n\) binary-like units, many patterns can be represented. Distributed codes allow shared factors and combinatorial reuse, but they are harder to interpret unit by unit.
 
 ## Visual scene plan
 
