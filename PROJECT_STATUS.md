@@ -21,7 +21,12 @@ Updated: 29 July 2026
 - [x] Detailed guide: Deep Sets
 - [x] Detailed guide: Geometric Deep Learning
 - [x] Twenty toy-experiment specifications
+- [x] Cross-paper representation design-pattern index
 - [x] Contribution and accuracy guidelines
+- [x] Responsive GitHub Pages landing page
+- [x] Searchable Markdown reader for papers and project resources
+- [x] Dark mode, page navigation, table of contents and equation rendering
+- [x] Automated GitHub Pages deployment workflow
 
 ## Next implementation phase
 
@@ -36,11 +41,10 @@ Updated: 29 July 2026
 - [ ] Implement E13: reconstruction versus downstream utility
 - [ ] Implement E14: contrastive augmentations define invariance
 - [ ] Add original cartoon scene sheets for the nine core papers
-- [ ] Convert the backpropagation guide into chapter-quality HTML
+- [ ] Convert the backpropagation guide into a bespoke interactive chapter
 - [ ] Add tests for every hand calculation
-- [ ] Add a cross-paper design-pattern index
 - [ ] Add paper-specific exercises and answer keys
 
 ## Interpretation of existing status tables
 
-The core notes now contain a toy calculation, experiment list and visual plan. Those are **designed**, not yet implemented as executable code or final artwork. “Completed” here means the study material and specification exist; it does not mean every notebook, illustration or HTML chapter has been produced.
+The core notes now contain a toy calculation, experiment list and visual plan. Those are **designed**, not yet implemented as executable code or final artwork. “Completed” here means the study material and specification exist; it does not mean every notebook, illustration or interactive chapter has been produced.
