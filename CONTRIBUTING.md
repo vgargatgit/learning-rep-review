@@ -95,6 +95,14 @@ Also document:
 - Use precise terms: invariant, equivariant, static, contextual, sparse, dense, local, distributed.
 - Use diagrams to expose relationships, not as decoration.
 - Render exact equations and labels with text/SVG/HTML rather than generated-image text.
+- Keep every Markdown heading in plain language. Do not put equations, LaTeX delimiters, mathematical symbols or inline code in headings.
+- When an equation names a section, use a conceptual heading and place the equation immediately below it as MathJax.
+
+Validate headings before submitting:
+
+```bash
+python3 scripts/lint_markdown_headings.py
+```
 
 ## Pull-request checklist
 
@@ -106,5 +114,7 @@ Also document:
 - [ ] No train/test leakage is introduced.
 - [ ] New code has a reproduction command.
 - [ ] New invariance/equivariance claims have tests.
+- [ ] Markdown headings contain plain language only.
+- [ ] `python3 scripts/lint_markdown_headings.py` passes.
 - [ ] Copyright and licences are respected.
 - [ ] `references.bib` is updated when a paper is added.
