@@ -9,9 +9,11 @@
       const raw = sessionStorage.getItem(SESSION_KEY);
       if (!raw) return false;
       const session = JSON.parse(raw);
-      return session.version === SESSION_VERSION
+      const valid = session.version === SESSION_VERSION
         && Number.isFinite(session.expiresAt)
         && session.expiresAt > Date.now();
+      if (!valid) sessionStorage.removeItem(SESSION_KEY);
+      return valid;
     } catch (_error) {
       sessionStorage.removeItem(SESSION_KEY);
       return false;
@@ -52,9 +54,10 @@
     if (!nav.querySelector('[data-logout]')) {
       const logoutButton = document.createElement('button');
       logoutButton.type = 'button';
-      logoutButton.className = 'auth-logout';
+      logoutButton.className = 'theme-toggle auth-logout';
       logoutButton.dataset.logout = '';
       logoutButton.textContent = 'Sign out';
+      logoutButton.setAttribute('aria-label', 'Sign out of the protected preview');
       const themeToggle = nav.querySelector('#theme-toggle');
       nav.insertBefore(logoutButton, themeToggle || null);
       logoutButton.addEventListener('click', () => {
