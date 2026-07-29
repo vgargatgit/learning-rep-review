@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Sign in to preview the Learning Representations study site.">
+  <meta name="theme-color" content="#17233c">
+  <title>Sign in · Learning Representations</title>
+  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="stylesheet" href="assets/auth.css">
+  <script src="assets/auth.js"></script>
+</head>
+<body class="login-page">
+  <main class="login-shell">
+    <section class="login-card" aria-labelledby="login-title">
+      <p class="eyebrow">PROTECTED LEARNING PREVIEW</p>
+      <h1 id="login-title">Learning Representations</h1>
+      <p class="login-copy">Sign in to open the paper guides, experiments, roadmaps and representation-design notes.</p>
+
+      <form id="login-form" class="login-form" novalidate>
+        <label for="username">Username</label>
+        <input id="username" name="username" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" required autofocus>
+
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" required>
+
+        <button id="login-button" class="login-button" type="submit">Open the site</button>
+        <p id="login-error" class="login-error" role="alert" aria-live="polite" hidden></p>
+      </form>
+
+      <p class="login-security">The submitted credential is verified in the browser against a salted PBKDF2-HMAC-SHA-256 verifier. The literal password is not stored in this page.</p>
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      'use strict';
+
+      const form = document.getElementById('login-form');
+      const usernameInput = document.getElementById('username');
+      const passwordInput = document.getElementById('password');
+      const loginButton = document.getElementById('login-button');
+      const errorBox = document.getElementById('login-error');
+
+      function safeReturnLocation() {
+        const requested = new URLSearchParams(window.location.search).get('returnTo');
+        if (!requested) return './';
+
+        try {
+          const destination = new URL(requested, window.location.origin);
+          const sameOrigin = destination.origin === window.location.origin;
+          const loginDestination = /(?:^|\/)login\.html$/.test(destination.pathname);
+          return sameOrigin && !loginDestination
+            ? `${destination.pathname}${destination.search}${destination.hash}`
+            : './';
+        } catch (_error) {
+          return './';
+        }
+      }
+
+      if (window.BookAuth.isAuthenticated()) {
+        window.location.replace(safeReturnLocation());
+        return;
+      }
+
+      form.addEventListener('submit', async event => {
+        event.preventDefault();
+        errorBox.hidden = true;
+        loginButton.disabled = true;
+        loginButton.textContent = 'Verifying…';
+
+        try {
+          const authenticated = await window.BookAuth.authenticate(
+            usernameInput.value,
+            passwordInput.value
+          );
+
+          if (!authenticated) {
+            passwordInput.value = '';
+            passwordInput.focus();
+            errorBox.textContent = 'The username or password is incorrect.';
+            errorBox.hidden = false;
+            return;
+          }
+
+          window.location.replace(safeReturnLocation());
+        } catch (error) {
+          console.error(error);
+          errorBox.textContent = 'Sign-in requires HTTPS and a browser with Web Crypto support.';
+          errorBox.hidden = false;
+        } finally {
+          loginButton.disabled = false;
+          loginButton.textContent = 'Open the site';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
