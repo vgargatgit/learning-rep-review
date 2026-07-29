@@ -26,6 +26,7 @@
   const content = document.getElementById('reader-content');
   const toc = document.getElementById('reader-toc');
   const search = document.getElementById('reader-search');
+  const mathProtection = window.ReaderMathProtection;
   let originalHtml = '';
 
   document.querySelectorAll('[data-doc]').forEach(link => {
@@ -42,49 +43,6 @@
     while (used.has(slug)) slug = `${base}-${count++}`;
     used.add(slug);
     return slug;
-  };
-
-  /**
-   * Markdown parsers are allowed to reinterpret backslashes, underscores and
-   * asterisks. Protect TeX before Markdown parsing, then restore it into inert
-   * HTML placeholders for MathJax to process afterwards.
-   */
-  const protectMath = markdown => {
-    const math = [];
-    const literalSegments = [];
-
-    const stashLiteral = source => {
-      const token = `\uE000LITERAL_${literalSegments.length}\uE001`;
-      literalSegments.push({ token, source });
-      return token;
-    };
-
-    // Do not interpret examples inside fenced or inline code as mathematics.
-    let protectedMarkdown = markdown.replace(
-      /(^|\n)( {0,3})(`{3,}|~{3,})[^\n]*\n[\s\S]*?\n\2\3[^\n]*(?=\n|$)/g,
-      match => stashLiteral(match)
-    );
-    protectedMarkdown = protectedMarkdown.replace(/(`+)([^`\n]*?)\1/g, match => stashLiteral(match));
-
-    const stashMath = (display, source) => {
-      const index = math.length;
-      math.push({ display, source: source.trim() });
-      if (display) {
-        return `\n\n<div class="math-source" data-math-token="${index}" data-display="true"></div>\n\n`;
-      }
-      return `<span class="math-source" data-math-token="${index}" data-display="false"></span>`;
-    };
-
-    protectedMarkdown = protectedMarkdown
-      .replace(/\\\[([\s\S]*?)\\\]/g, (_, equation) => stashMath(true, equation))
-      .replace(/\$\$([\s\S]*?)\$\$/g, (_, equation) => stashMath(true, equation))
-      .replace(/\\\(([\s\S]*?)\\\)/g, (_, equation) => stashMath(false, equation));
-
-    literalSegments.forEach(({ token, source }) => {
-      protectedMarkdown = protectedMarkdown.split(token).join(source);
-    });
-
-    return { markdown: protectedMarkdown, math };
   };
 
   const restoreMathSources = math => {
@@ -209,8 +167,9 @@
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const markdown = await response.text();
       if (!window.marked) throw new Error('Markdown renderer did not load');
+      if (!mathProtection?.protectMath) throw new Error('Math protection helper did not load');
 
-      const protectedDocument = protectMath(markdown);
+      const protectedDocument = mathProtection.protectMath(markdown);
       content.innerHTML = window.marked.parse(protectedDocument.markdown, { gfm: true, breaks: false });
       restoreMathSources(protectedDocument.math);
 
