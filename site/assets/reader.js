@@ -16,6 +16,8 @@
     'docs/pedagogical-framework.md',
     'docs/representation-checklist.md',
     'docs/rendering-guidelines.md',
+    'docs/backpropagation-scene-plan.md',
+    'docs/backpropagation-illustration-brief.md',
     'README.md',
     'PROJECT_STATUS.md'
   ]);
